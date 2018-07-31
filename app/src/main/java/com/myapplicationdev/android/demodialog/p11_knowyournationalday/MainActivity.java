@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> aa;
     String [] list = new String[] { "Singapore National Day is on 9 Aug", "Singapore is 52 years old", "Theme is '#OneNationTogether'"};
     String access;
+    String sending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         lv_national.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                String [] send = new String[] { "Email", "SMS"};
+                final String [] send = new String[] { "Email", "SMS"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Select the way to enrich your friend")
                         // Set the list of items easily by just supplying an
@@ -106,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                     email.setType("message/rfc822");
                                     startActivity(Intent.createChooser(email,
                                             "Choose an Email client :"));
-                                    Snackbar sb = Snackbar.make(lv_national, "Email send", Snackbar.LENGTH_SHORT);
-                                    sb.show();
+                                    sending = "Email send";
                                 }else {
                                     Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
                                     sendBroadcast(intent);
@@ -116,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
                                     //String to = etTo.getText().toString();
                                     String content = al.get(position);
                                     smsManager.sendTextMessage("5554", null, content, null, null);
-                                    Snackbar sb = Snackbar.make(lv_national, "SMS send", Snackbar.LENGTH_SHORT);
-                                    sb.show();
+                                    sending = "SMS send";
                                 }
+                                Snackbar sb = Snackbar.make(lv_national, sending, Snackbar.LENGTH_SHORT);
+                                sb.show();
                                 finish();
-
                             }
                         });
                 AlertDialog alertDialog = builder.create();
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(MainActivity.this, "Wrong access code", Toast.LENGTH_SHORT).show();
-                                finish();
+
                             }
                         }
                     })
@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             Toast.makeText(MainActivity.this, "Please visit RP website",
                                     Toast.LENGTH_LONG).show();
+                            finish();
                         }
                     });
             AlertDialog alertDialog = builder.create();
@@ -211,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
                                         email.setType("message/rfc822");
                                         startActivity(Intent.createChooser(email,
                                                 "Choose an Email client :"));
-                                        Snackbar sb = Snackbar.make(lv_national, "Email send", Snackbar.LENGTH_SHORT);
-                                        sb.show();
+                                        sending = "Email send";
                                     }else {
                                         Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
                                         sendBroadcast(intent);
@@ -221,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
                                         //String to = etTo.getText().toString();
                                         String content = al.get(position);
                                         smsManager.sendTextMessage("5554", null, content, null, null);
-                                        Snackbar sb = Snackbar.make(lv_national, "SMS send", Snackbar.LENGTH_SHORT);
-                                        sb.show();
+                                        sending = "SMS sending";
                                     }
+                                    Snackbar sb = Snackbar.make(lv_national, sending, Snackbar.LENGTH_SHORT);
+                                    sb.show();
                                     finish();
                                 }
                             });
