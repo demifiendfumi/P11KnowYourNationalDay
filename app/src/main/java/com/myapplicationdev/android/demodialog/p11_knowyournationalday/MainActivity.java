@@ -334,16 +334,19 @@ public class MainActivity extends AppCompatActivity {
                             RadioButton rb3 = quiz.findViewById(selectedButtonId3);
                             String rbAns3 = rb3.getText().toString();
                             Log.e("rbAns", rb3.getText().toString());
+                            String result;
 
                             if (rbAns1.equals("No") && rbAns2.equals("Yes") && rbAns3.equals("Yes")){
-                                Toast.makeText(MainActivity.this, "You've score full points!", Toast.LENGTH_SHORT).show();
+                                result = "You've score full points!";
                             }else if (rbAns1.equals("Yes") && rbAns2.equals("Yes") && rbAns3.equals("Yes")|| rbAns1.equals("No") && rbAns2.equals("No") && rbAns3.equals("Yes") || rbAns1.equals("No") && rbAns2.equals("Yes") && rbAns3.equals("No")){
-                                Toast.makeText(MainActivity.this, "You've scored 2 points!", Toast.LENGTH_SHORT).show();
+                                result = "You've scored 2 points!";
                             }else if (rbAns1.equals("No") && rbAns2.equals("No") && rbAns3.equals("No")|| rbAns1.equals("Yes") && rbAns2.equals("Yes") && rbAns3.equals("No") || rbAns1.equals("Yes") && rbAns2.equals("No") && rbAns3.equals("Yes")){
-                                Toast.makeText(MainActivity.this, "You've scored 1 points!", Toast.LENGTH_SHORT).show();
+                                result = "You've score 1 point!";
                             }else{
-                                Toast.makeText(MainActivity.this, "You've score 0 points...", Toast.LENGTH_SHORT).show();
+                                result = "You've score 0 points...";
                             }
+                            Snackbar sb = Snackbar.make(lv_national, result, Snackbar.LENGTH_SHORT);
+                            sb.show();
                         }
                     })
                     .setNegativeButton("Don't know lah", new DialogInterface.OnClickListener() {
