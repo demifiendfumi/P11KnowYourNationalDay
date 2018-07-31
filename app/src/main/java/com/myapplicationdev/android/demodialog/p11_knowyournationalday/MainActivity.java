@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.LocaleDisplayNames;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -109,13 +110,21 @@ public class MainActivity extends AppCompatActivity {
                                             "Choose an Email client :"));
                                     sending = "Email send";
                                 }else {
-                                    Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
-                                    sendBroadcast(intent);
+//                                    Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
+//                                    sendBroadcast(intent);
 
-                                    SmsManager smsManager = SmsManager.getDefault();
-                                    //String to = etTo.getText().toString();
-                                    String content = al.get(position);
-                                    smsManager.sendTextMessage("5554", null, content, null, null);
+//                                    SmsManager smsManager = SmsManager.getDefault();
+//                                    //String to = etTo.getText().toString();
+//                                    String content = al.get(position);
+//                                    smsManager.sendTextMessage("5554", null, content, null, null);
+                                    String message = al.get(position);
+                                    Intent intent = new Intent(Intent.ACTION_SEND);
+                                    intent.setData(Uri.parse("smsto:"));  // This ensures only SMS apps respond
+                                    intent.putExtra("sms_body", message);
+                                    intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://sms/inbox"));
+                                    if (intent.resolveActivity(getPackageManager()) != null) {
+                                        startActivity(intent);
+                                    }
                                     sending = "SMS send";
                                 }
                                 Snackbar sb = Snackbar.make(lv_national, sending, Snackbar.LENGTH_SHORT);
@@ -214,13 +223,21 @@ public class MainActivity extends AppCompatActivity {
                                                 "Choose an Email client :"));
                                         sending = "Email send";
                                     }else {
-                                        Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
-                                        sendBroadcast(intent);
-
-                                        SmsManager smsManager = SmsManager.getDefault();
-                                        //String to = etTo.getText().toString();
-                                        String content = al.get(position);
-                                        smsManager.sendTextMessage("5554", null, content, null, null);
+//                                        Intent intent = new Intent("com.example.broadcast.SEND_BROADCAST");
+//                                        sendBroadcast(intent);
+//
+//                                        SmsManager smsManager = SmsManager.getDefault();
+//                                        //String to = etTo.getText().toString();
+//                                        String content = al.get(position);
+//                                        smsManager.sendTextMessage("5554", null, content, null, null);
+                                        String message = al.get(position);
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        intent.setData(Uri.parse("smsto:"));  // This ensures only SMS apps respond
+                                        intent.putExtra("sms_body", message);
+                                        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://sms/inbox"));
+                                        if (intent.resolveActivity(getPackageManager()) != null) {
+                                            startActivity(intent);
+                                        }
                                         sending = "SMS sending";
                                     }
                                     Snackbar sb = Snackbar.make(lv_national, sending, Snackbar.LENGTH_SHORT);
